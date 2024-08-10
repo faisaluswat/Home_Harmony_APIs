@@ -12,8 +12,14 @@ require('dotenv').config();
 // db config
 require('./db/db.config')
 
+
+// imports
+const authRouter = require('./routes/auth.route');
+
+const errorHandler = require('./middlewares/errorhandler');
+
 // public path
-const  publicPath = path.join(__dirname, '../public');
+const publicPath = path.join(__dirname, '../public');
 
 // config public path
 app.use(express.static(publicPath));
@@ -36,7 +42,7 @@ const corsOptions = {
 
 // middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions))
 app.use(helmet.hsts({
     maxAge: 31536000,  // 1 year in seconds
@@ -44,6 +50,11 @@ app.use(helmet.hsts({
 }));
 app.disable('x-powered-by');
 
+
+app.use('/api/auth', authRouter);
+
+
+app.use(errorHandler);
 
 
 module.exports = app;
