@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
+const passport = require('passport');
 
 // initialize express
 const app = new express();
@@ -43,6 +44,7 @@ const corsOptions = {
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 app.use(cors(corsOptions))
 app.use(helmet.hsts({
     maxAge: 31536000,  // 1 year in seconds
