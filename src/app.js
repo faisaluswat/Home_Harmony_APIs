@@ -16,8 +16,11 @@ require('./db/db.config')
 
 // imports
 const authRouter = require('./routes/auth.route');
+const dashRouter = require('./routes/dash.route');
 
 const errorHandler = require('./middlewares/errorhandler');
+const { isAdmin } = require('./middlewares/authorize');
+const { tokenAuth } = require('./middlewares/passport');
 
 // public path
 const publicPath = path.join(__dirname, '../public');
@@ -54,6 +57,7 @@ app.disable('x-powered-by');
 
 
 app.use('/api/auth', authRouter);
+app.use('/api/dash', tokenAuth, isAdmin, dashRouter)
 
 
 app.use(errorHandler);
