@@ -1,7 +1,6 @@
 const { checkSchema } = require('express-validator');
-const Cat = require('../../models/cat.model');
 
-const catValidate = checkSchema({
+const updateCatValidate = checkSchema({
     name: {
         trim: true,
         notEmpty: {
@@ -12,14 +11,6 @@ const catValidate = checkSchema({
                 max: 20,
             },
             errorMessage: "Field must be smaller then 20 cahrachters"
-        },
-        custom: {
-            options: async value => {
-                let isUser = await Cat.findOne({ name: value });
-                if (isUser) {
-                    throw new Error('Category is already exist with same name.')
-                }
-            }
         }
     },
     desc: {
@@ -33,4 +24,4 @@ const catValidate = checkSchema({
     }
 })
 
-module.exports = catValidate
+module.exports = updateCatValidate

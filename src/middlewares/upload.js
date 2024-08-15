@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 const upload = multer({
     limits: {
-        fileSize: 1048576,
+        fileSize: 1048576,  // 1 mb in bytes
         files: 7
     },
     storage: multer.diskStorage({

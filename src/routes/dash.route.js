@@ -3,9 +3,18 @@ const express = require('express');
 const { addProd } = require('../handlers/prods.handler');
 const handleMulterError = require('../middlewares/upload');
 const prodValid = require('../middlewares/validation/product');
+const { addCat, updateCat, delCat } = require('../handlers/cats.handlers');
+const catValidate = require('../middlewares/validation/cat');
+const updateCatValidate = require('../middlewares/validation/updateCat');
 
 const router = new express.Router();
 
+// categories
+router.post('/add-cat', catValidate, addCat);
+router.patch('/update-cat/:cId', updateCatValidate, updateCat);
+router.delete('/del-cat/:cId', delCat)
+
+// Products
 router.post('/add-product', handleMulterError, prodValid, addProd)
 
 module.exports = router;
