@@ -29,7 +29,7 @@ module.exports = {
             if (!cId || !mongoose.isValidObjectId(cId)) {
                 return res.status(422).send({ error: 'Invalid id to process' });
             }
-            const cat = await Cat.findById(cId);
+            const cat = await Cat.findById(cId, 'name desc');
             if (!cat) return res.status(404).send({ error: 'Category not found.' });
             res.json({ cat });
         } catch (e) {
@@ -83,6 +83,14 @@ module.exports = {
                     .catch(err => console.error("Error on set default category to products. " + err));
             }
             res.send({ message: 'Category deleted.' })
+        } catch (e) {
+            throw new Error(e)
+        }
+    },
+    allCats: async (req, res) => {
+        try {
+            const cats = await Cat.find({}, 'name desc');
+            res.send({ cats });
         } catch (e) {
             throw new Error(e)
         }
