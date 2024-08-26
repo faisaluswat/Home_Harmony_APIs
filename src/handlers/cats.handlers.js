@@ -89,7 +89,22 @@ module.exports = {
     },
     allCats: async (req, res) => {
         try {
-            const cats = await Cat.find({}, 'name desc');
+            const cats = await Cat.aggregate([
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: '_id',
+                        foreignField: 'cat',
+                        as: 'products'
+                    }
+                },
+                {
+                    $project: {
+                        name: 1,
+                        productCount: { $size: '$products'}
+                    }
+                }
+            ]).exec();
             res.send({ cats });
         } catch (e) {
             throw new Error(e)
