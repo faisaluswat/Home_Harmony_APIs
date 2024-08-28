@@ -17,8 +17,8 @@ module.exports = {
             const newProd = { name, desc, rprice, colors, sku, sprice, type };
 
             if (cat && mongoose.isValidObjectId(cat)) {
-                const cat = await Cat.findById(cat);
-                if (cat) newProd.cat = cat._id;
+                const isCat = await Cat.findById(cat);
+                if (isCat) newProd.cat = isCat._id;
                 else newProd.cat = uncat?._id
             } else newProd.cat = uncat?._id;
 
@@ -122,7 +122,33 @@ module.exports = {
                 products = await Product.find({}, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 });
             }
 
-            res.send({totalProds, products })
+            res.send({ totalProds, products })
+        } catch (e) {
+            throw new Error(e)
+        }
+    },
+    paginateProdsByCat: async (req, res) => {
+        const { skip, limit } = req.query;
+        const catName = req.params.cat;
+        try {
+            if (!catName) {
+                return res.status(422).send({ error: 'Invalid category.' });
+            }
+            const cat = await Cat.findOne({ name: catName.toLowerCase() });
+            if (!cat) {
+                return res.status(404).send({ error: 'Category not found' });
+            }
+            let products = [];
+            const totalProds = await Product.countDocuments({ cat: cat.id });
+            if (!skip && limit) {
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).limit(limit);
+            } else if (skip && limit) {
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).skip(skip).limit(limit);
+            } else {
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 });
+            }
+
+            res.send({ totalProds, products })
         } catch (e) {
             throw new Error(e)
         }

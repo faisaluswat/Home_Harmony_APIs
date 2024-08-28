@@ -13,6 +13,7 @@ const catValidate = checkSchema({
             },
             errorMessage: "Field must be smaller then 20 cahrachters"
         },
+        toLowerCase: true,
         custom: {
             options: async value => {
                 let isUser = await Cat.findOne({ name: value });
@@ -20,7 +21,7 @@ const catValidate = checkSchema({
                     throw new Error('Category is already exist with same name.')
                 }
             }
-        }
+        },
     },
     desc: {
         trim: true,
