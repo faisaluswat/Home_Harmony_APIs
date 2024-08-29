@@ -8,8 +8,8 @@ module.exports = {
                 issued: new Date().toJSON()
             }, process.env.JWT_SECRETE, { expiresIn: "14d" });
             const expiration = new Date();
-            expiration.setDate(expiration.getDate() + 15);
-            res.json({ uId: req.user.id, token, expiration })
+            expiration.setDate(expiration.getDate() + 14);
+            res.json({ uId: req.user.id, token, expiration: expiration.getTime() })
         } catch (e) {
             throw new Error(e)
         }
