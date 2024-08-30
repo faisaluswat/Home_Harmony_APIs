@@ -29,7 +29,7 @@ const catValidate = checkSchema({
             options: {
                 max: 100
             },
-            errorMessage: "Field must be smaller then 100 cahrachters."
+            errorMessage: "Field must be smaller then 100 characters."
         }
     }
 })

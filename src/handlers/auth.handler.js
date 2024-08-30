@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
 module.exports = {
-    login: (req, res) => {
+    login: (req, res, next) => {
         try {
             const token = jwt.sign({
                 uId: req.user.id,
@@ -11,7 +11,7 @@ module.exports = {
             expiration.setDate(expiration.getDate() + 14);
             res.json({ uId: req.user.id, token, expiration: expiration.getTime() })
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     }
 }

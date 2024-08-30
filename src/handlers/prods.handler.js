@@ -6,7 +6,7 @@ const getFullYear = require('../utils/get-full-year');
 
 
 module.exports = {
-    addProd: async (req, res) => {
+    addProd: async (req, res, next) => {
         try {
             const validationErrors = await prodErrors(req)
             if (validationErrors) {
@@ -38,10 +38,10 @@ module.exports = {
             res.status(201).send({ message: "Product created." })
 
         } catch (e) {
-            throw new Error(e);
+            next(e)
         }
     },
-    updateProd: async (req, res) => {
+    updateProd: async (req, res, next) => {
         const { pId } = req.params;
         try {
             if (!pId || !mongoose.isValidObjectId(pId)) {
@@ -77,10 +77,10 @@ module.exports = {
             await product.save();
             res.send({ message: 'Product updated.' });
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     },
-    delProd: async (req, res) => {
+    delProd: async (req, res, next) => {
         const { pId } = req.params;
         try {
             if (!pId || !mongoose.isValidObjectId(pId)) {
@@ -93,10 +93,10 @@ module.exports = {
             removeProdOldFiles(product);
             res.send({ message: 'Product deleted.' });
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     },
-    singleProd: async (req, res) => {
+    singleProd: async (req, res, next) => {
         const { pId } = req.params;
         try {
             if (!pId || !mongoose.isValidObjectId(pId)) {
@@ -106,10 +106,10 @@ module.exports = {
             if (!product) return res.status(404).send({ error: 'Product not found.' });
             res.json({ product });
         } catch (e) {
-            throw new Error(e);
+            next(e)
         }
     },
-    paginateProds: async (req, res) => {
+    paginateProds: async (req, res, next) => {
         const { skip, limit } = req.query;
         try {
             let products = [];
@@ -124,10 +124,10 @@ module.exports = {
 
             res.send({ totalProds, products })
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     },
-    paginateProdsByCat: async (req, res) => {
+    paginateProdsByCat: async (req, res, next) => {
         const { skip, limit } = req.query;
         const catName = req.params.cat;
         try {
@@ -150,7 +150,7 @@ module.exports = {
 
             res.send({ totalProds, products })
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     }
 }

@@ -4,7 +4,7 @@ const Cat = require('../models/cat.model');
 const Product = require('../models/product.model');
 
 module.exports = {
-    addCat: async (req, res) => {
+    addCat: async (req, res, next) => {
         const errs = validationResult(req);
         try {
             if (!errs.isEmpty()) {
@@ -12,7 +12,7 @@ module.exports = {
                 errs.errors.forEach(e => {
                     errObj[e.path] = e.msg
                 });
-                return res.status(422).send({ validationErros: errObj });
+                return res.status(422).send({ validationErrors: errObj });
             }
             await new Cat({
                 name: req.body.name,
@@ -20,10 +20,10 @@ module.exports = {
             }).save()
             res.status(201).json({ message: 'Category Created' });
         } catch (e) {
-            throw new Error(e);
+            next(e)
         }
     },
-    singleCat: async (req, res) => {
+    singleCat: async (req, res, next) => {
         const { cId } = req.params;
         try {
             if (!cId || !mongoose.isValidObjectId(cId)) {
@@ -33,10 +33,10 @@ module.exports = {
             if (!cat) return res.status(404).send({ error: 'Category not found.' });
             res.json({ cat });
         } catch (e) {
-            throw new Error(e);
+            next(e)
         }
     },
-    updateCat: async (req, res) => {
+    updateCat: async (req, res, next) => {
         const errs = validationResult(req);
         const { cId } = req.params;
         try {
@@ -62,10 +62,10 @@ module.exports = {
             res.json({ message: 'Category updated.' })
 
         } catch (e) {
-            throw new Error(e);
+            next(e)
         }
     },
-    delCat: async (req, res) => {
+    delCat: async (req, res, next) => {
         const { cId } = req.params;
         try {
             if (!cId || !mongoose.isValidObjectId(cId)) {
@@ -84,10 +84,10 @@ module.exports = {
             }
             res.send({ message: 'Category deleted.' })
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     },
-    allCats: async (req, res) => {
+    allCats: async (req, res, next) => {
         try {
             const cats = await Cat.aggregate([
                 {
@@ -101,13 +101,14 @@ module.exports = {
                 {
                     $project: {
                         name: 1,
-                        productCount: { $size: '$products'}
+                        desc: 1,
+                        productCount: { $size: '$products' }
                     }
                 }
             ]).exec();
             res.send({ cats });
         } catch (e) {
-            throw new Error(e)
+            next(e)
         }
     }
 }
