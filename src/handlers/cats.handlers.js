@@ -52,7 +52,7 @@ module.exports = {
                 errs.errors.forEach(e => {
                     errObj[e.path] = e.msg
                 });
-                return res.status(422).send({ validationErros: errObj });
+                return res.status(422).send({ validationErrors: errObj });
             }
 
             isCat.name = req.body.name;
