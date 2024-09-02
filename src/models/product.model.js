@@ -5,7 +5,7 @@ const productShema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        maxlength: 20
+        maxlength: 30
     },
     desc: {
         type: String,
@@ -17,27 +17,27 @@ const productShema = new mongoose.Schema({
         required: true,
         default: '/placeholders/product.jpg'
     },
-    gallery:[{
+    gallery: [{
         type: String,
     }],
-    colors:[{
+    colors: [{
         type: String,
     }],
     sku: {
         type: String,
         trim: true
     },
-    cat:{
+    cat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cat',
         default: null
     },
-    rprice:{
+    rprice: {
         type: Number,
         required: true,
         default: 0
     },
-    sprice:{
+    sprice: {
         type: Number,
     },
     type: {
@@ -45,10 +45,10 @@ const productShema = new mongoose.Schema({
         default: 'fixed'
     },
     status: {
-        type: String,
+        type: Boolean,
         default: true
     }
-},{
+}, {
     timestamps: true
 })
 

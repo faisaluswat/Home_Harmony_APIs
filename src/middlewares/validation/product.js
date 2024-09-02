@@ -9,9 +9,9 @@ const prodValid = checkSchema({
         },
         isLength: {
             options: {
-                max: 20
+                max: 30
             },
-            errorMessage: "Field must be less then 20 characters"
+            errorMessage: "Field must be less then 30 characters"
         }
     },
     desc: {
