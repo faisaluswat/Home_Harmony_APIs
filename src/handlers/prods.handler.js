@@ -102,7 +102,7 @@ module.exports = {
             if (!pId || !mongoose.isValidObjectId(pId)) {
                 return res.status(422).send({ error: 'Invalid Id to process' });
             }
-            const product = await Product.findById(pId, 'name desc featured colors cat rprice sprice type').populate('cat', 'name');
+            const product = await Product.findById(pId, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name');
             if (!product) return res.status(404).send({ error: 'Product not found.' });
             res.json({ product });
         } catch (e) {
@@ -115,11 +115,11 @@ module.exports = {
             let products = [];
             const totalProds = await Product.countDocuments();
             if (!skip && limit) {
-                products = await Product.find({}, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).limit(limit);
+                products = await Product.find({}, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 }).limit(limit);
             } else if (skip && limit) {
-                products = await Product.find({}, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).skip(skip).limit(limit);
+                products = await Product.find({}, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 }).skip(skip).limit(limit);
             } else {
-                products = await Product.find({}, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 });
+                products = await Product.find({}, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 });
             }
 
             res.send({ totalProds, products })
@@ -141,11 +141,11 @@ module.exports = {
             let products = [];
             const totalProds = await Product.countDocuments({ cat: cat.id });
             if (!skip && limit) {
-                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).limit(limit);
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 }).limit(limit);
             } else if (skip && limit) {
-                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 }).skip(skip).limit(limit);
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 }).skip(skip).limit(limit);
             } else {
-                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type').populate('cat', 'name').sort({ createdAt: -1 });
+                products = await Product.find({ cat: cat.id }, 'name desc featured colors cat rprice sprice type sku').populate('cat', 'name').sort({ createdAt: -1 });
             }
 
             res.send({ totalProds, products })
