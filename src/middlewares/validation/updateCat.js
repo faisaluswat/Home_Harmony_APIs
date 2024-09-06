@@ -11,7 +11,8 @@ const updateCatValidate = checkSchema({
                 max: 20,
             },
             errorMessage: "Field must be smaller then 20 cahrachters"
-        }
+        },
+        toLowerCase: true,
     },
     desc: {
         trim: true,
