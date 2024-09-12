@@ -1,6 +1,7 @@
 const express = require('express');
 const { singleCat, allCats } = require('../handlers/cats.handlers');
 const { singleProd, paginateProds, paginateProdsByCat } = require('../handlers/prods.handler');
+const { settingsInfo } = require('../handlers/setting');
 
 const router = new express.Router();
 
@@ -12,5 +13,8 @@ router.get('/cats', allCats)
 router.get('/product/:pId', singleProd);
 router.get("/products", paginateProds);
 router.get("/products/:cat", paginateProdsByCat);
+
+// setting
+router.get('/settings', settingsInfo);
 
 module.exports = router;

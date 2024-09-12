@@ -7,7 +7,7 @@ const { addCat, updateCat, delCat } = require('../handlers/cats.handlers');
 const catValidate = require('../middlewares/validation/cat');
 const updateCatValidate = require('../middlewares/validation/updateCat');
 const updateProdValid = require('../middlewares/validation/updateprod');
-const { settings, settingsInfo } = require('../handlers/setting');
+const { settings } = require('../handlers/setting');
 const settingValid = require('../middlewares/validation/setting');
 
 const router = new express.Router();
@@ -23,7 +23,6 @@ router.patch('/update-product/:pId', handleMulterError, updateProdValid, updateP
 router.delete('/del-product/:pId', delProd);
 
 // setting
-router.get('/settings', settingsInfo);
 router.post('/settings', settingValid, settings);
 
 module.exports = router;
