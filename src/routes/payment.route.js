@@ -1,8 +1,10 @@
 const express = require('express');
-const { getPublicKey } = require('../handlers/payment');
+const { createIntent, cancelIntent, successIntent } = require('../handlers/payment');
 
 const router = new express.Router();
 
-router.get('/public-key', getPublicKey);
+router.post('/create-payment', createIntent);
+router.post('/cancel-payment', cancelIntent);
+router.post('/success-order', successIntent);
 
 module.exports = router
