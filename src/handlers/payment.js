@@ -3,8 +3,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRETE_KEY);
 const Product = require('../models/product.model');
 const Setting = require('../models/setting.model');
 
-const endpointSecret = "whsec_915710ea8216673d30798cf6e729bb1da3c654d4df852faaf8f893f5f4e31615";
-
 module.exports = {
     createIntent: async (req, res, next) => {
         const { cart, billing } = req.body;
