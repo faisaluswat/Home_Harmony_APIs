@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const settingShema = new mongoose.Schema({
+const settingSchema = new mongoose.Schema({
     address: {
         type: String,
         trim: true,
@@ -44,4 +44,4 @@ const settingShema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('Setting', settingShema);
+module.exports = mongoose.model('Setting', settingSchema);

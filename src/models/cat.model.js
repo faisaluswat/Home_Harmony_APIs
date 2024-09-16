@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const catShema = new mongoose.Schema({
+const catSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -16,8 +16,8 @@ const catShema = new mongoose.Schema({
     icon: {
         type: String,
     }
-},{
+}, {
     timestamps: true
 })
 
-module.exports = mongoose.model('Cat', catShema);
+module.exports = mongoose.model('Cat', catSchema);

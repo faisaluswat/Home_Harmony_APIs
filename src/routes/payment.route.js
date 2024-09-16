@@ -5,6 +5,6 @@ const router = new express.Router();
 
 router.post('/create-payment', createIntent);
 router.post('/cancel-payment', cancelIntent);
-router.post('/success-order', successIntent);
+router.post('/place-order', successIntent);
 
 module.exports = router

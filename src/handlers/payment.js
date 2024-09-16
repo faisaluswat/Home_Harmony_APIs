@@ -3,9 +3,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRETE_KEY);
 const Product = require('../models/product.model');
 const Setting = require('../models/setting.model');
 
+const endpointSecret = "whsec_915710ea8216673d30798cf6e729bb1da3c654d4df852faaf8f893f5f4e31615";
+
 module.exports = {
     createIntent: async (req, res, next) => {
-        const { cart, name, email } = req.body;
+        const { cart, billing } = req.body;
         try {
             if (!cart || cart.length === 0) {
                 return res.status(404).send({ error: 'Products not found' });
@@ -32,7 +34,7 @@ module.exports = {
             }
 
             const customer = await stripe.customers.create({
-                name, email
+                name: billing.bname, email: billing.shipping
             })
 
             const paymentIntent = await stripe.paymentIntents.create({
@@ -41,7 +43,7 @@ module.exports = {
                 setup_future_usage: 'off_session',
                 payment_method_types: ['card'],
                 description: 'Order Purchase',
-                statement_descriptor: 'Home Harmoney',
+                statement_descriptor_suffix: 'Home Harmoney',
                 customer: customer.id,
             })
 
@@ -61,6 +63,19 @@ module.exports = {
         }
     },
     successIntent: async (req, res, next) => {
+        const { payId } = req.body;
+        try {
+            const paymentIntent = await stripe.paymentIntents.retrieve(payId);
+            if (paymentIntent.status === 'succeeded') {
+                console.log(paymentIntent)
+                // const order = await createOrder(paymentIntent);
+                // res.status(200).json({ message: 'Order completed', order });
+            } else {
+                res.status(400).json({ error: 'Payment not successful' });
+            }
 
+        } catch (e) {
+            next(e)
+        }
     }
 }
