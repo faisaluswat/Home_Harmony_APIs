@@ -1,34 +1,6 @@
 const mongoose = require("mongoose");
 
-const addressSchema = new mongoose.Schema({
-    street: {
-        type: String,
-        required: true,
-        maxlength: 200
-    },
-    city: {
-        type: String,
-        required: true,
-        maxlength: 50
-    },
-    state: {
-        type: String,
-        required: true,
-        maxlength: 50
-    },
-    country: {
-        type: String,
-        required: true,
-        maxlength: 50
-    },
-    zipcode: {
-        type: String,
-        required: true,
-        maxlength: 30
-    }
-})
-
-const orderSchema = new mongoose.Schema({
+const detailSchema = new mongoose.Schema({
     fullname: {
         type: String,
         required: true,
@@ -46,14 +18,44 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        type: addressSchema,
+        street: {
+            type: String,
+            required: true,
+            maxlength: 200
+        },
+        city: {
+            type: String,
+            required: true,
+            maxlength: 50
+        },
+        state: {
+            type: String,
+            required: true,
+            maxlength: 50
+        },
+        country: {
+            type: String,
+            required: true,
+            maxlength: 50
+        },
+        zipcode: {
+            type: String,
+            required: true,
+            maxlength: 30
+        }
+    }
+})
+
+const orderSchema = new mongoose.Schema({
+    billing: {
+        type: detailSchema,
         required: true
     },
-    sAddress: {
-        type: addressSchema
+    shipping: {
+        type: detailSchema
     },
     productDetails: [{
-        productId: {
+        pId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product',
             required: true
@@ -68,12 +70,14 @@ const orderSchema = new mongoose.Schema({
             required: true
         }
     }],
-    paymentId: {
+    payId: {
         type: String,
+        required: function () {
+            return this.payId !== null
+        },
         unique: true,
-        required: true,
-        default: null,
-        sparse: true
+        sparse: true,
+        default: null
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -92,14 +96,23 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    tax: {
+        type: Number,
+        default: 0
+    },
     totalAmount: {
         type: Number,
         required: true
     },
     status: {
+        type: Number,
+        required: true,
+        default: 1
+    },
+    paymethod: {
         type: 'String',
         required: true,
-        default: "processing"
+        default: 'cod'
     }
 }, {
     timestamps: true
