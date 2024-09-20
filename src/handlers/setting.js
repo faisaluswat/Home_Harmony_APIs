@@ -22,6 +22,7 @@ module.exports = {
                     if (method === 'paypal') settingData.payment.paypal = true;
                     if (method === 'cod') settingData.payment.cod = true;
                 });
+            } else if (typeof req.body.payment === 'string'){                
             } else {
                 settingData.payment = req.body.payment
             }

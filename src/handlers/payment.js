@@ -1,12 +1,9 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRETE_KEY);
 
-const { findProductsByIdsArray, refactorCartItems, saveOrder } = require('../helpers/payment');
-const Product = require('../models/product.model');
-const Setting = require('../models/setting.model');
-
+const { findProductsByIdsArray, refactorCartItems, saveOrder } = require('../helpers/payhelper');
 module.exports = {
     createIntent: async (req, res, next) => {
-        const { cart, name, email } = req.body;
+        const { cart, billing } = req.body;
         try {
             if (!cart || cart.length === 0) {
                 return res.status(404).send({ error: 'Products not found' });
@@ -22,12 +19,9 @@ module.exports = {
             if (!total) {
                 return res.status(500).send({ error: 'Internal Server Error' });
             }
-
-            // const { orderId } = await saveOrder(billing, cartItems, null, null,
-            //     subtotal, setting, total, 1, 'stripe');
-
+            req.session.orderData = { billing, cartItems, setting, subtotal, total };
             const customer = await stripe.customers.create({
-                name, email
+                name: billing.bname, email: billing.bemail
             })
 
             const paymentIntent = await stripe.paymentIntents.create({
@@ -49,6 +43,9 @@ module.exports = {
     cancelIntent: async (req, res, next) => {
         try {
             let { payId } = req.body;
+            if (!payId) {
+                return res.status(400).send({ error: 'Invalid Id' });
+            }
             const paymentIntent = await stripe.paymentIntents.cancel(payId);
             res.send({ status: paymentIntent.status });
         } catch (e) {
@@ -60,13 +57,13 @@ module.exports = {
         try {
             const paymentIntent = await stripe.paymentIntents.retrieve(payId);
             if (paymentIntent.status === 'succeeded') {
-
-                // const order = await createOrder(paymentIntent);
-                const products = await findProductsByIdsArray(cart);
-                const { cartItems, setting, subtotal, total } = await refactorCartItems(cart, products);
+                const { orderData } = req.session;
+                if (!orderData) {
+                    return res.status(400).send({ error: 'Something wrong with data.' })
+                }
                 const { orderId } = await saveOrder(
-                    billing, cartItems, paymentIntent.id, null,
-                    subtotal, setting, total, 1, 'stripe'
+                    orderData.billing, orderData.cartItems, paymentIntent.id, null,
+                    orderData.subtotal, orderData.setting, orderData.total, 1, 'stripe'
                 );
                 res.status(200).json({ message: 'Order completed', orderId });
             } else {
