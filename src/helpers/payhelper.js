@@ -38,7 +38,7 @@ exports.saveOrder = async (
     paymethod,
 ) => {
     let shippingAdress = null;
-    if (billing.samebilling) {
+    if (!billing.samebilling) {
         shippingAdress = {
             fullname: billing.sname,
             email: billing.semail,
@@ -54,7 +54,7 @@ exports.saveOrder = async (
     }
 
     const newOrder = {
-        billing: {
+        billdetails: {
             fullname: billing.bname,
             email: billing.bemail,
             phone: billing.bphone,
@@ -66,7 +66,7 @@ exports.saveOrder = async (
                 zipcode: billing.bzip
             }
         },
-        shipping: shippingAdress,
+        shippdetails: shippingAdress,
         productDetails: cart,
         payId: payId,
         customerId,

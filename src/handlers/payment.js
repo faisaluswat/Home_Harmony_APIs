@@ -65,6 +65,7 @@ module.exports = {
                     orderData.billing, orderData.cartItems, paymentIntent.id, null,
                     orderData.subtotal, orderData.setting, orderData.total, 1, 'stripe'
                 );
+                delete req.session.orderData;
                 res.status(200).json({ message: 'Order completed', orderId });
             } else {
                 res.status(400).json({ error: 'Payment not successful' });

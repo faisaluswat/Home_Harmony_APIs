@@ -47,11 +47,11 @@ const detailSchema = new mongoose.Schema({
 })
 
 const orderSchema = new mongoose.Schema({
-    billing: {
+    billdetails: {
         type: detailSchema,
         required: true
     },
-    shipping: {
+    shippdetails: {
         type: detailSchema
     },
     productDetails: [{

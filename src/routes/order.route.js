@@ -1,10 +1,10 @@
 const express = require('express');
 
-const { stripeCreateOrder } = require('../handlers/order.handler');
+const { stripeCreateOrder, codOrder } = require('../handlers/order.handler');
 
 const router = new express.Router();
 
 // stripe create order
-// router.post('/create-order', stripeCreateOrder);
+router.post('/create-order', codOrder);
 
 module.exports = router;
