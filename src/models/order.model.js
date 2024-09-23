@@ -107,7 +107,7 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: Number,
         required: true,
-        default: 1
+        default: 1 // 1=active 2=pending 3=deliverd/complete 4=canceled
     },
     paymethod: {
         type: 'String',

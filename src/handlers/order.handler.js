@@ -1,3 +1,4 @@
+const Order = require('../models/order.model');
 const { findProductsByIdsArray, refactorCartItems, saveOrder } = require("../helpers/payhelper");
 
 module.exports = {
@@ -23,6 +24,19 @@ module.exports = {
                 subtotal, setting, total, 1, 'cod'
             );
             res.status(200).json({ message: 'Order completed', orderId });
+        } catch (e) {
+            next(e)
+        }
+    },
+    paginateOrders: async (req, res, next) => {
+        const { skip, limit } = req.query;
+        try {
+            const orders = await Order.find({}, 'billdetails totalAmount status createdAt paymethod')
+                .sort({ createdAt: -1 }).skip(skip).limit(limit);
+
+            const totalOrders = await Order.countDocuments();
+            res.send({ orders, totalOrders })
+
         } catch (e) {
             next(e)
         }
