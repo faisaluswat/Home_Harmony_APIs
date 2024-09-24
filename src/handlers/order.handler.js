@@ -1,5 +1,6 @@
 const Order = require('../models/order.model');
 const { findProductsByIdsArray, refactorCartItems, saveOrder } = require("../helpers/payhelper");
+const { default: mongoose } = require('mongoose');
 
 module.exports = {
     codOrder: async (req, res, next) => {
@@ -36,6 +37,24 @@ module.exports = {
 
             const totalOrders = await Order.countDocuments();
             res.send({ orders, totalOrders })
+
+        } catch (e) {
+            next(e)
+        }
+    },
+    singleOrder: async (req, res, next) => {
+        const { oId } = req.params;
+        try {
+            if (!oId || !mongoose.isValidObjectId(oId)) {
+                return res.status(422).send({ error: 'Invalid Id' })
+            }
+            const order = await Order.findById(oId,
+                'billdetails shippdetails productDetails subtotal discount shipping tax totalAmount status paymethod createdAt')
+                .populate('productDetails.pId', 'name featured type');
+            if (!order) {
+                return res.status(404).send({ error: 'Order not found!' })
+            }
+            res.send({ order })
 
         } catch (e) {
             next(e)
