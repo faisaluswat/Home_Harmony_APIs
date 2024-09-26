@@ -1,6 +1,7 @@
 const Order = require('../models/order.model');
 const { findProductsByIdsArray, refactorCartItems, saveOrder } = require("../helpers/payhelper");
 const { default: mongoose } = require('mongoose');
+const { invoice } = require('./mails');
 
 module.exports = {
     codOrder: async (req, res, next) => {
@@ -24,6 +25,9 @@ module.exports = {
                 billing, cartItems, Date.now(), null,
                 subtotal, setting, total, 1, 'cod'
             );
+            invoice({
+
+            }, `${billing.bfullname} <${billing.bemail}>, ${process.env.SITE_NAME} <${$process.env.SITE_EMAIL}>`);
             res.status(200).json({ message: 'Order completed', orderId });
         } catch (e) {
             next(e)
