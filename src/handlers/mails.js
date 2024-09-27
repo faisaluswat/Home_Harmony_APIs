@@ -7,7 +7,7 @@ module.exports = {
                 from: process.env.MAIL_EMAIL,
                 to: email,
                 subject: process.env.SITE_NAME + ' Order',
-                text: 'Your order is placed.',
+                text: 'Your order is recieved.',
                 template: 'invoice',
                 context: {
                     info,

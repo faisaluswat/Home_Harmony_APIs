@@ -61,12 +61,12 @@ module.exports = {
                 if (!orderData) {
                     return res.status(400).send({ error: 'Something wrong with data.' })
                 }
-                const { orderId } = await saveOrder(
+                const order = await saveOrder(
                     orderData.billing, orderData.cartItems, paymentIntent.id, null,
                     orderData.subtotal, orderData.setting, orderData.total, 1, 'stripe'
                 );
                 delete req.session.orderData;
-                res.status(200).json({ message: 'Order completed', orderId });
+                res.status(200).json({ message: 'Order completed', orderId: order.id });
             } else {
                 res.status(400).json({ error: 'Payment not successful' });
             }

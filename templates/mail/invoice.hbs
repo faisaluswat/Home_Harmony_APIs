@@ -3,7 +3,6 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="viewport" content="width=device-width; initial-scale=1.0;" />
 <style type="text/css">
-
     html {
         width: 100%;
     }
@@ -152,9 +151,10 @@
                                                 class="col">
                                                 <tbody>
                                                     <tr>
-                                                        <td align="left"> <img
-                                                                src="http://www.supah.it/dribbble/017/logo.png"
-                                                                width="32" height="32" alt="logo" border="0" /></td>
+                                                        <td align="left"><a href="{{site_url}}"> <img
+                                                                    src="data:image/png;base64,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"
+                                                                    height="32" alt="{{site_name}}" border="0" /></a>
+                                                        </td>
                                                     </tr>
                                                     <tr class="hiddenMobile">
                                                         <td height="40"></td>
@@ -165,7 +165,7 @@
                                                     <tr>
                                                         <td
                                                             style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
-                                                            Hello, Philip Brooks.
+                                                            Hello, {{info.billing_details.fullname}}.
                                                             <br> Thank you for shopping from our shop and for your
                                                             order.
                                                         </td>
@@ -184,7 +184,7 @@
                                                     <tr>
                                                         <td
                                                             style="font-size: 21px; color: #000; letter-spacing: -1px; line-height: 1; vertical-align: top; text-align: right;">
-                                                            Invoice
+                                                            Receipt
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -197,8 +197,9 @@
                                                     <tr>
                                                         <td
                                                             style="font-size: 12px; line-height: 18px; vertical-align: top; text-align: right;">
-                                                            <small>ORDER</small> #800000025<br />
-                                                            <small>MARCH 4TH 2016</small>
+                                                            <small>ORDER</small> #{{info.Id}}<br />
+                                                            <small>{{info.date}}</small><br />
+                                                            <small>{{info.paymethod}}</small>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -245,7 +246,7 @@
                                                 </th>
                                                 <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;"
                                                     align="center">
-                                                    Quantity
+                                                    Qty/LM
                                                 </th>
                                                 <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;"
                                                     align="right">
@@ -258,25 +259,27 @@
                                             <tr>
                                                 <td height="10" colspan="4"></td>
                                             </tr>
+                                            {{#each info.products}}
                                             <tr>
                                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif;  line-height: 18px;  vertical-align: top; padding:10px 0;"
                                                     class="article">
-                                                    Beats Studio Over-Ear Headphones
-                                                    <br><small>$123.3</small>
+                                                    {{this.name}}
+                                                    <br><small>{{this.price}}</small>
                                                 </td>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif;  line-height: 18px;  vertical-align: top; padding:10px 0;">
-                                                    <small>red</small>
+                                                    <small>{{this.color}}</small>
                                                 </td>
                                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif;  line-height: 18px;  vertical-align: top; padding:10px 0;"
-                                                    align="center">1</td>
+                                                    align="center">{{this.qty}}x</td>
                                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif;  line-height: 18px;  vertical-align: top; padding:10px 0;"
-                                                    align="right">$299.95</td>
+                                                    align="right">{{this.totalprice}}</td>
                                             </tr>
                                             <tr>
                                                 <td height="1" colspan="4" style="border-bottom:1px solid #e4e4e4">
                                                 </td>
                                             </tr>
+                                            {{/each}}
                                         </tbody>
                                     </table>
                                 </td>
@@ -313,10 +316,11 @@
                                                 </td>
                                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;"
                                                     width="80">
-                                                    $329.90
+                                                    {{info.order_details.subtotal}}
                                                 </td>
                                             </tr>
                                             <tr>
+                                                {{#if info.order_details.discount}}
                                             <tr>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; ">
@@ -324,9 +328,10 @@
                                                 </td>
                                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;"
                                                     width="80">
-                                                    -$329.90
+                                                    -{{info.order_details.discount}}
                                                 </td>
                                             </tr>
+                                            {{/if}}
                                             <tr>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; ">
@@ -334,17 +339,17 @@
                                                 </td>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; ">
-                                                    $15.00
+                                                    {{info.order_details.shipping}}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; ">
-                                                    Incl. Tax (tax%)
+                                                    Tax ({{info.order_details.tax.percent}}%)
                                                 </td>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 22px; vertical-align: top; text-align:right; ">
-                                                    $15.00
+                                                    {{info.order_details.tax.amount}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -353,7 +358,7 @@
                                                     <strong>Total (Incl.Tax)</strong>
                                                 <td
                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
-                                                    <strong>$344.90</strong>
+                                                    <strong>{{info.order_details.total}}</strong>
                                                 </td>
                                 </td>
                             </tr>
@@ -408,10 +413,13 @@
                                                             <tr>
                                                                 <td
                                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 20px; vertical-align: top; ">
-                                                                    Philip Brooks<br> Public Wales, Somewhere<br>
-                                                                    New
-                                                                    York NY<br> 4468, United States<br> T:
-                                                                    202-555-0133
+                                                                    {{info.billing_details.fullname}}<br>
+                                                                    {{info.billing_details.address.street}}<br>
+                                                                    {{info.billing_details.address.city}}
+                                                                    {{info.billing_details.address.state}}<br>
+                                                                    {{info.billing_details.address.zipcode}},
+                                                                    {{info.billing_details.address.country}}<br>
+                                                                    {{info.billing_details.phone}}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -435,10 +443,13 @@
                                                             <tr>
                                                                 <td
                                                                     style="font-size: 12px; font-family: 'Open Sans', sans-serif; line-height: 20px; vertical-align: top; ">
-                                                                    Philip Brooks<br> Public Wales, Somewhere<br>
-                                                                    New
-                                                                    York NY<br> 4468, United States<br> T:
-                                                                    202-555-0133
+                                                                    {{info.shipping_details.fullname}}<br>
+                                                                    {{info.shipping_details.address.street}}<br>
+                                                                    {{info.shipping_details.address.city}}
+                                                                    {{info.shipping_details.address.state}}<br>
+                                                                    {{info.shipping_details.address.zipcode}},
+                                                                    {{info.shipping_details.address.country}}<br>
+                                                                    {{info.shipping_details.phone}}
                                                                 </td>
                                                             </tr>
                                                         </tbody>

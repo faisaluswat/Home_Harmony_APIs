@@ -13,7 +13,7 @@ exports.findProductsByIdsArray = async (cart) => {
 exports.refactorCartItems = async (cart, products) => {
     const cartItems = cart.map(item => {
         const product = products.find(p => p._id.equals(item.pId));
-        return { pId: product._id, color: item.color, qty: item.qty, price: product.sprice || product.rprice }
+        return { pId: product._id, name: product.name, color: item.color, qty: item.qty, price: product.sprice || product.rprice }
     });
 
     const setting = await Setting.findOne();
@@ -73,7 +73,7 @@ exports.saveOrder = async (
         subtotal,
         discount: setting.discount,
         shipping: setting.shipping,
-        tax: setting.tax,
+        tax: ((subtotal * setting.tax) / 100).toFixed(),
         totalAmount: total,
         status,
         paymethod
@@ -81,5 +81,5 @@ exports.saveOrder = async (
 
     const order = new Order(newOrder);
     await order.save();
-    return { orderId: order.id }
+    return order
 }

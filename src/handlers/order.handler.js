@@ -2,6 +2,8 @@ const Order = require('../models/order.model');
 const { findProductsByIdsArray, refactorCartItems, saveOrder } = require("../helpers/payhelper");
 const { default: mongoose } = require('mongoose');
 const { invoice } = require('./mails');
+const { specialDateFormat } = require('../utils/date-format');
+const { usdFormat } = require('../utils/currency-format');
 
 module.exports = {
     codOrder: async (req, res, next) => {
@@ -21,14 +23,40 @@ module.exports = {
             if (!total) {
                 return res.status(500).send({ error: 'Internal Server Error' });
             }
-            const { orderId } = await saveOrder(
+            const order = await saveOrder(
                 billing, cartItems, Date.now(), null,
                 subtotal, setting, total, 1, 'cod'
             );
-            invoice({
 
-            }, `${billing.bfullname} <${billing.bemail}>, ${process.env.SITE_NAME} <${$process.env.SITE_EMAIL}>`);
-            res.status(200).json({ message: 'Order completed', orderId });
+            const formatedCarts = cartItems.map(p => ({
+                name: p.name,
+                price: usdFormat(p.price),
+                color: p.color,
+                qty: p.qty,
+                totalprice: usdFormat(p.qty * p.price)
+            }))
+
+            invoice({
+                Id: order.id,
+                billing_details: JSON.parse(JSON.stringify(order.billdetails)),
+                shipping_details: JSON.parse(JSON.stringify(order.shippdetails)) || JSON.parse(JSON.stringify(order.billdetails)),
+                date: specialDateFormat(Date.now()),
+                paymethod: order.paymethod,
+                products: formatedCarts,
+                order_details: {
+                    subtotal: usdFormat(order.subtotal),
+                    discount: order.discount && usdFormat(order.discount),
+                    shipping: usdFormat(order.shipping),
+                    tax: {
+                        percent: setting.tax,
+                        amount: usdFormat(order.tax)
+                    },
+                    total: usdFormat(order.totalAmount)
+                }
+
+            }, `${order.billdetails.fullname} <${order.billdetails.email}>, ${process.env.SITE_NAME} <${process.env.SITE_EMAIL}>`);
+
+            res.status(200).json({ message: 'Order completed', orderId: order.id });
         } catch (e) {
             next(e)
         }
