@@ -1,6 +1,9 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRETE_KEY);
 
 const { findProductsByIdsArray, refactorCartItems, saveOrder } = require('../helpers/payhelper');
+const { usdFormat } = require('../utils/currency-format');
+const { specialDateFormat } = require('../utils/date-format');
+const { invoice } = require('./mails');
 module.exports = {
     createIntent: async (req, res, next) => {
         const { cart, billing } = req.body;
@@ -66,6 +69,35 @@ module.exports = {
                     orderData.subtotal, orderData.setting, orderData.total, 1, 'stripe'
                 );
                 delete req.session.orderData;
+
+                const formatedCarts = orderData.cartItems.map(p => ({
+                    name: p.name,
+                    price: usdFormat(p.price),
+                    color: p.color,
+                    qty: p.qty,
+                    totalprice: usdFormat(p.qty * p.price)
+
+                }))
+                invoice({
+                    Id: order.id,
+                    billing_details: JSON.parse(JSON.stringify(order.billdetails)),
+                    shipping_details: JSON.parse(JSON.stringify(order.shippdetails)) || JSON.parse(JSON.stringify(order.billdetails)),
+                    date: specialDateFormat(Date.now()),
+                    paymethod: order.paymethod,
+                    products: formatedCarts,
+                    order_details: {
+                        subtotal: usdFormat(order.subtotal),
+                        discount: order.discount && usdFormat(order.discount),
+                        shipping: usdFormat(order.shipping),
+                        tax: {
+                            percent: orderData.setting.tax,
+                            amount: usdFormat(order.tax)
+                        },
+                        total: usdFormat(order.totalAmount)
+                    }
+
+                }, `${order.billdetails.fullname} <${order.billdetails.email}>, ${process.env.SITE_NAME} <${process.env.SITE_EMAIL}>`);
+
                 res.status(200).json({ message: 'Order completed', orderId: order.id });
             } else {
                 res.status(400).json({ error: 'Payment not successful' });
