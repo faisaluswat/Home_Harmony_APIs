@@ -22,5 +22,23 @@ module.exports = {
         } catch (e) {
             console.error('Invoice Mail sending failed. ' + e);
         }
+    },
+    message: async (fields, subject) => {
+        try {
+            const send = await transporter.sendMail({
+                from: process.env.MAIL_EMAIL,
+                to: process.env.SITE_EMAIL,
+                subject: subject,
+                text: fields.text(),
+                html: fields.html()
+            })
+
+            if (send) {
+                console.info('Invoice Mail Sent. ' + send.messageId);
+            }
+        } catch (e) {
+            console.error('Message Mail sending failed. ' + e);
+            return 'Message sending failed.'
+        }
     }
 }
