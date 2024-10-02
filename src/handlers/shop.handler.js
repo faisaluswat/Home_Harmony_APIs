@@ -12,13 +12,13 @@ module.exports = {
             const month = date.getMonth();
             const year = date.getFullYear();
 
-            const currentMonthOrders = orders.filter(o => {
+            const currentMonthOrders = exceptCanceledOrders.filter(o => {
                 const odate = new Date(o.createdAt);
                 return odate.getMonth() === month && odate.getFullYear() === year;
             })
 
             const monthlySale = currentMonthOrders.reduce((acc, cur) => acc + cur.totalAmount, 0);
-            const deliveredOrders = orders.map(o => o.status === 3).length;
+            const deliveredOrders = orders.filter(o => o.status === 3).length;
             const recentOrders = orders.slice(0, 7);
             res.send({ totalProducts, monthlySale, deliveredOrders, recentOrders })
         } catch (e) {

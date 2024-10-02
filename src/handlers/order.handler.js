@@ -4,6 +4,7 @@ const { default: mongoose } = require('mongoose');
 const { invoice } = require('./mails');
 const { specialDateFormat } = require('../utils/date-format');
 const { usdFormat } = require('../utils/currency-format');
+const { isInt } = require('validator');
 
 module.exports = {
     codOrder: async (req, res, next) => {
@@ -88,6 +89,26 @@ module.exports = {
             }
             res.send({ order })
 
+        } catch (e) {
+            next(e)
+        }
+    },
+    changeStatus: async (req, res, next) => {
+        const { oId, status } = req.body;
+        try {
+            if (!oId || !mongoose.isValidObjectId(oId)) {
+                return res.status(422).send({ error: 'Invalid Id' });
+            }
+            if (status < 1 || status > 4 || !Number.isInteger(parseInt(status))) {
+                return res.status(422).send({ error: 'Invalid status' });
+            }
+            const order = await Order.findById(oId);
+            if (order.status === status) {
+                return res.status(400).send({ error: 'Order is in same state.' })
+            }
+            order.status = status;
+            await order.save();
+            res.send({ message: 'Order status changed.' });
         } catch (e) {
             next(e)
         }

@@ -10,7 +10,7 @@ const updateProdValid = require('../middlewares/validation/updateprod');
 const { settings } = require('../handlers/setting');
 const settingValid = require('../middlewares/validation/setting');
 const { overview } = require('../handlers/shop.handler');
-const { paginateOrders, singleOrder } = require('../handlers/order.handler');
+const { paginateOrders, singleOrder, changeStatus } = require('../handlers/order.handler');
 
 const router = new express.Router();
 
@@ -33,5 +33,6 @@ router.get('/overview', overview);
 // Orders
 router.get('/orders/:oId', singleOrder)
 router.get('/orders', paginateOrders)
+router.patch('/change-status', changeStatus)
 
 module.exports = router;
