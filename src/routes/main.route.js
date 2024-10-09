@@ -2,7 +2,7 @@ const express = require('express');
 const { singleCat, allCats } = require('../handlers/cats.handlers');
 const { singleProd, paginateProds, paginateProdsByCat } = require('../handlers/prods.handler');
 const { settingsInfo } = require('../handlers/setting');
-const { sendMessage } = require('../handlers/contact.handler');
+const { sendMessage, booking } = require('../handlers/contact.handler');
 
 const router = new express.Router();
 
@@ -20,5 +20,8 @@ router.get('/settings', settingsInfo);
 
 // send Message
 router.post('/send-message', sendMessage)
+
+// booking
+router.post('/booking', booking)
 
 module.exports = router;

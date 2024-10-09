@@ -9,7 +9,7 @@ const updateCatValidate = require('../middlewares/validation/updateCat');
 const updateProdValid = require('../middlewares/validation/updateprod');
 const { settings } = require('../handlers/setting');
 const settingValid = require('../middlewares/validation/setting');
-const { overview } = require('../handlers/shop.handler');
+const { overview, profile } = require('../handlers/shop.handler');
 const { paginateOrders, singleOrder, changeStatus } = require('../handlers/order.handler');
 
 const router = new express.Router();
@@ -29,6 +29,9 @@ router.post('/settings', settingValid, settings);
 
 // shop
 router.get('/overview', overview);
+
+// profile
+router.get('/profile', profile);
 
 // Orders
 router.get('/orders/:oId', singleOrder)
