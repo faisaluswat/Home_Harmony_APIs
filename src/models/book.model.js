@@ -61,7 +61,7 @@ const bookingSchema = new mongoose.Schema({
         status: {
             type: Number,
             required: true,
-            default: 1 // 1=pending 2=confirmed 4=progress 3=complete 4=canceled
+            default: 1 // 1=pending 2=confirmed 3=progress 4=complete 5=canceled
         },
         advancePayment: { type: Number, default: 0 },
         wages: { type: Number, default: 0 },

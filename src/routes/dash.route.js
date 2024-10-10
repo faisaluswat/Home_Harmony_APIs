@@ -11,6 +11,7 @@ const { settings } = require('../handlers/setting');
 const settingValid = require('../middlewares/validation/setting');
 const { overview, profile } = require('../handlers/shop.handler');
 const { paginateOrders, singleOrder, changeStatus } = require('../handlers/order.handler');
+const { bookings, singleBook } = require('../handlers/hiring.handler');
 
 const router = new express.Router();
 
@@ -37,5 +38,9 @@ router.get('/profile', profile);
 router.get('/orders/:oId', singleOrder)
 router.get('/orders', paginateOrders)
 router.patch('/change-status', changeStatus)
+
+// hirings
+router.get('/hirings', bookings);
+router.get('/hiring/:hId', singleBook);
 
 module.exports = router;
