@@ -152,5 +152,14 @@ module.exports = {
         } catch (e) {
             next(e)
         }
+    },
+    saleProds: async (req, res, next) => {
+        const { limit } = req.query
+        try {
+            const saleProducts = await Product.find({ sprice: { $ne: undefined } }, 'name featured rprice sprice sku').sort({ createdAt: -1 }).limit(limit || 0);
+            res.send({ saleProducts })
+        } catch (e) {
+            next(e)
+        }
     }
 }
