@@ -13,11 +13,11 @@ passport.use(new localStrategy({ usernameField: 'email', passwordField: 'passwor
     async (email, password, done) => {
         User.findOne({ email }).then(user => {
             if (!user) {
-                return done(null, false, { message: 'Email is not registered.' });
+                return done(null, false, { message: 'Incorrect Email or Password.' });
             }
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) return done(null, false);
-                if (!isMatch) return done(null, false, { message: 'Incorrect Password.' });
+                if (!isMatch) return done(null, false, { message: 'Incorrect Email or Password.' });
                 done(null, user);
             })
         }).catch(e => {
